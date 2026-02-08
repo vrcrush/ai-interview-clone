@@ -1,5 +1,6 @@
 // Configuration
-const API_URL = 'http://localhost:3001'; // Change this to your deployed backend URL
+//const API_URL = 'http://localhost:3001'; // Change this to your deployed backend URL
+const API_URL = 'https://ai-interview-clone-backend.onrender.com';
 const MAX_MESSAGE_LENGTH = 2000;
 const AUTO_SCROLL_THRESHOLD = 100; // pixels from bottom
 
