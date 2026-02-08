@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Pablo AI</title>
+    <meta name="description" content="Chat with my AI interview clone to learn about my background, skills, and experience.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>Interview Pablo AI</h1>
+                <p class="subtitle">Ask me anything about my background, experience, and skills</p>
+            </div>
+        </header>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <!-- Messages Area -->
+            <div class="messages-container" id="messagesContainer">
+                <!-- Welcome message will be inserted here by JavaScript -->
+            </div>
+
+            <!-- Suggested Questions (shown initially) -->
+            <div class="suggested-questions" id="suggestedQuestions">
+                <p class="suggested-label">Quick questions to get started:</p>
+                <div class="questions-grid" id="questionsGrid">
+                    <!-- Questions will be inserted here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea 
+                        id="messageInput" 
+                        class="message-input" 
+                        placeholder="Type your question here..."
+                        rows="1"
+                        maxlength="2000"
+                    ></textarea>
+                    <button id="sendButton" class="send-button" aria-label="Send message">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+                <div class="input-footer">
+                    <span class="character-count" id="characterCount">0 / 2000</span>
+                    <span class="disclaimer">Responses are AI-generated based on my profile</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>Want to talk to the real me? 
+                    <a href="mailto:vrcrush@gmail.com" class="contact-link">Send me an email</a>
+                    or 
+                    <a href="https://www.linkedin.com/in/vrcrush/" class="contact-link" target="_blank">connect on LinkedIn</a>
+                </p>
+                <p class="footer-note">This AI clone is powered by Anthropic's Claude. Your questions are processed via API and not permanently stored. No personal data is collected or tracked.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Loading Indicator (hidden by default) -->
+    <div class="loading-indicator" id="loadingIndicator">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Error Toast (hidden by default) -->
+    <div class="error-toast" id="errorToast">
+        <span class="error-message" id="errorMessage"></span>
+        <button class="error-close" id="errorClose">&times;</button>
+    </div>
+
+    <script src="chat.js"></script>
+</body>
+</html>
