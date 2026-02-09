@@ -529,7 +529,27 @@ body {
     outline: 2px solid var(--primary-color);
     outline-offset: 2px;
 }
+/* Export Button */
+.export-button {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
 
+.export-button:hover {
+    background-color: var(--background-color);
+    transform: scale(1.05);
+}
+
+.export-button:active {
+    transform: scale(0.95);
+}
 /* Print Styles */
 @media print {
     .input-container,
