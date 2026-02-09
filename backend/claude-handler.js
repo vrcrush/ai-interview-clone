@@ -146,14 +146,14 @@ function getWelcomeMessage() {
  */
 function getSuggestedQuestions() {
   return [
-    "Tell me about yourself",
-    "What are your key technical skills?",
-    "What's your biggest professional achievement?",
-    "What type of role are you looking for?",
-    "Walk me through a challenging project you worked on",
-    "What's your leadership experience?",
-    "What are your salary expectations?",
-    "When can you start?"
+    "👤 Tell me about yourself",
+    "💻 What are your technical skills?",
+    "🏆 What's your biggest achievement?",
+    "🎯 What type of role are you looking for?",
+    "💼 Walk me through a recent project",
+    "💡 What's your leadership experience?",
+    "💰 What are your salary expectations?",
+    "📅 When can you start?"
   ];
 }
 
