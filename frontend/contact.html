@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me - Pablo Bolzon</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Contact Me</h1>
+            <p class="subtitle">Get in touch about opportunities</p>
+        </header>
+
+        <div class="contact-form-container">
+            <form action="https://formsubmit.co/vrcrush@gmail.com" method="POST" class="contact-form">
+                <!-- Honeypot for spam protection -->
+                <input type="text" name="_honey" style="display:none">
+                
+                <!-- Disable captcha -->
+                <input type="hidden" name="_captcha" value="false">
+                
+                <!-- Custom subject -->
+                <input type="hidden" name="_subject" value="New contact from AI Interview Clone!">
+                
+                <!-- Redirect after submission -->
+                <input type="hidden" name="_next" value="https://ai-interview-clone-vrcrush-vrcrushs-projects.vercel.app/thanks.html">
+                
+                <!-- Name -->
+                <div class="form-group">
+                    <label for="name">Your Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="John Doe">
+                </div>
+                
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Your Email *</label>
+                    <input type="email" id="email" name="email" required placeholder="john@example.com">
+                </div>
+                
+                <!-- Company (optional) -->
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company" placeholder="Acme Corp">
+                </div>
+                
+                <!-- Message -->
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" required placeholder="Tell me about the opportunity..." rows="6"></textarea>
+                </div>
+                
+                <!-- Submit -->
+                <button type="submit" class="submit-button">Send Message</button>
+            </form>
+            
+            <p style="text-align: center; margin-top: 30px;">
+                <a href="index.html" style="color: var(--primary-color); text-decoration: none;">← Back to Chat</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
