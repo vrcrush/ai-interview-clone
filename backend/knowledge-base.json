@@ -42,14 +42,13 @@
 					"Designed and deployed MyHR Digital Assistant to automate HR support. This is was on NLP technology, not Generative AI",
 					"Managed global team including offshore resources in the Philippines- 2 direct reports",
 					"Reduced HR service desk tickets through automation and self-service",
-					"Standardized integrations between Oracle HCM, payroll, and downstream systems",
+					"Standardized integrations between Oracle HCM and downstream systems",
 					"Design Performance Goals and Performance Documents configuration in HCM system"
 				],
 				"technologies": [
 					"Oracle HCM Cloud",
 					"Oracle Digital Assistant",
 					"Redwood UX",
-					"REST/SOAP APIs",
 					"Automation Tools"
 				]
 			},
@@ -139,7 +138,6 @@
 			],
 			"tools": [
 				"ServiceNow",
-				"Postman",
 				"GitHub",
 				"Excel"
 			],
@@ -222,7 +220,7 @@
 		},
 		"practical_info": {
 			"availability": {
-				"notice_period": "2 weeks",
+				"notice_period": "2-3 weeks",
 				"timezone": "CST (UTC-6)",
 				"work_schedule": "Flexible"
 			},
@@ -230,7 +228,7 @@
 				"remote": "Hybrid or remote preferred",
 				"relocation": "Open for the right opportunity",
 				"travel": "Up to 30%",
-				"visa_status": "US Citizen and Argentine Citizen"
+				"visa_status": "US Citizen"
 			},
 			"compensation": {
 				"current_salary": "As an AI Agent, I'd prefer not to share this info",
@@ -238,7 +236,7 @@
 				"other_considerations": "I value equity in growth-stage companies and comprehensive benefits including healthcare, 401k matching, and professional development budget."
 			},
 			"AI Agent": {
-				"disclosure": "I am AI Agent created by Pablo Bolzon"
+				"disclosure": "I am AI Agent created by Juan Pablo Bolzon"
 			}
 		}
 	}

@@ -184,6 +184,17 @@ app.post('/api/chat', rateLimiter, async (req, res) => {
     const limitedHistory = conversationHistory 
       ? conversationHistory.slice(-10) // Keep only last 10 messages
       : [];
+
+ // Increment counter on first message only
+    if (!conversationHistory || conversationHistory.length <= 1) {
+      console.log('🔢 Incrementing counter...');
+      fetch('https://abacus.jasoncameron.dev/hit/vrcrush/conversations')
+        .then(res => res.json())
+        .then(data => console.log('🔢 Counter response:', data))
+        .catch(err => console.log('Counter failed:', err));
+    } else {
+      console.log('🔢 Not first message, skipping counter. History length:', conversationHistory.length);
+    }
     
     // Generate response using Claude
     const response = await claudeHandler.generateResponse(message, limitedHistory);
@@ -221,6 +232,39 @@ app.use((err, req, res, next) => {
     success: false,
     error: 'Internal server error'
   });
+});
+
+// Get conversation count
+app.get('/api/counter', async (req, res) => {
+  try {
+    const response = await fetch('https://abacus.jasoncameron.dev/get/vrcrush/conversations');
+    const data = await response.json();
+    res.json({ count: data.value });
+  } catch (err) {
+    res.json({ count: 0 });
+  }
+});
+
+// Log recruiter contact info
+app.post('/api/recruiter-contact', async (req, res) => {
+    try {
+        const { name, email, linkedIn, company } = req.body;
+
+        // Log to Render so you can see it in dashboard
+        console.log('🎯 NEW RECRUITER CONTACT!');
+        console.log('==========================');
+        console.log(`👤 Name:     ${name}`);
+        console.log(`📧 Email:    ${email}`);
+        console.log(`💼 Company:  ${company || 'Not provided'}`);
+        console.log(`🔗 LinkedIn: ${linkedIn || 'Not provided'}`);
+        console.log('==========================');
+
+        res.json({ success: true });
+
+    } catch (error) {
+        console.error('Contact error:', error);
+        res.status(500).json({ success: false });
+    }
 });
 
 // 404 handler

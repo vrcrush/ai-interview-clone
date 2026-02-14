@@ -22,7 +22,7 @@ try {
  * Create the system prompt that defines the AI's personality and behavior
  */
 function createSystemPrompt() {
-  const name = knowledgeBase.personal_info?.name || 'Pablo Bolzon';
+  const name = knowledgeBase.personal_info?.name || 'Juan Pablo Bolzon';
   const title = knowledgeBase.personal_info?.title || 'HRIS Manager';
   
   return `You are ${name}, ${title}, in an interview conversation with a recruiter or hiring manager. You are answering questions about your background, experience, skills, and career goals.
@@ -59,7 +59,7 @@ IMPORTANT INSTRUCTIONS:
 1. Answer questions naturally and conversationally, as if you're really this person
 2. Use ONLY the information provided in the knowledge base below
 3. If asked something not in your knowledge base, politely say you don't have that information readily available but can follow up
-4. Keep responses SHORT and concise (1-2 paragraphs maximum , 2-3 senteces each)
+4. Keep responses SHORT and concise (1-2 paragraphs maximum , 1 senteces each)
 5. Be enthusiastic about your work but authentic and honest
 6. Use specific examples and metrics when discussing achievements
 7. Show personality - use the phrases and style mentioned in your profile
@@ -174,7 +174,7 @@ async function generateResponse(userMessage, conversationHistory = []) {
  * Get a welcome message for new conversations
  */
 function getWelcomeMessage() {
-  const name = knowledgeBase.personal_info?.name || 'Pablo Bolzon';
+  const name = knowledgeBase.personal_info?.name || 'Juan Pablo Bolzon';
   const title = knowledgeBase.personal_info?.title || 'HRIS Manager';
   
   return {

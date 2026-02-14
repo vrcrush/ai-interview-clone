@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interview JP AI</title>
-    <meta name="description" content="Chat with my AI interview clone to learn about my background, skills, and experience.">
+
+    <meta name="description" content="Chat with my AI interview agent to learn about my background, skills, and experience.">
     <link rel="stylesheet" href="styles.css">
+		<!-- Emoji favicon - no file needed! -->
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
 </head>
 <body>
 
@@ -16,8 +19,12 @@
 				<img src="profile.jpg" alt="PB" class="profile-photo">
                 <h1>Interview JP AI</h1>
                 <p class="subtitle">Ask me anything about my background, experience, and skills</p>
+				<div class="conversation-counter">
+				<span id="counterNumber">...</span> conversations so far 💬
+				</div>
             </div>
         </header>
+
 
         <!-- Chat Container -->
         <div class="chat-container">
@@ -67,7 +74,7 @@
                     or 
                     <a href="https://www.linkedin.com/in/vrcrush/" class="contact-link" target="_blank">Connect on LinkedIn</a>
                 </p>
-                <p class="footer-note">This AI agent is powered by Claude. Your questions are processed via API and shared with Juan Pablo for review. No personal data is collected or tracked.</p>
+                <p class="footer-note">This is a personal portfolio project featuring an AI assistant. Messages may be reviewed. No personal data collected or tracked.</p>
             </div>
         </footer>
     </div>
@@ -84,5 +91,26 @@
     </div>
 
     <script src="chat.js"></script>
+
+<!-- Recruiter Contact Popup -->
+<div id="contactPopup" class="contact-popup hidden">
+    <div class="contact-popup-content">
+        <div class="contact-popup-header">
+            <h3>👋 Let's Stay Connected!</h3>
+            <button id="closeContactPopup" class="modal-close">✕</button>
+        </div>
+        <p class="contact-popup-subtitle">Enjoying the conversation? Leave your details and I'll reach out!</p>
+        <div class="contact-popup-form">
+            <input type="text" id="recruiterName" placeholder="Your name *" class="popup-input">
+            <input type="email" id="recruiterEmail" placeholder="Your email *" class="popup-input">
+            <input type="text" id="recruiterLinkedIn" placeholder="LinkedIn URL (optional)" class="popup-input">
+            <input type="text" id="recruiterCompany" placeholder="Company name (optional)" class="popup-input">
+        </div>
+        <div class="contact-popup-footer">
+            <button id="submitContactBtn" class="submit-contact-btn">Send My Details 🚀</button>
+            <button id="skipContactBtn" class="skip-contact-btn">Maybe later</button>
+        </div>
+    </div>
+</div>
 </body>
 </html>

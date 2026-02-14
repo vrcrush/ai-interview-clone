@@ -16,6 +16,20 @@ const AUTO_SCROLL_THRESHOLD = 100; // pixels from bottom
 let conversationHistory = [];
 let isWaitingForResponse = false;
 
+// Load conversation counter
+async function loadCounter() {
+  try {
+    const response = await fetch(`${API_URL}/api/counter`);
+    const data = await response.json();
+    const el = document.getElementById('counterNumber');
+    if (el) el.textContent = data.count;
+  } catch (err) {
+    console.log('Counter failed:', err);
+  }
+}
+
+loadCounter();
+
 // DOM Elements
 const messagesContainer = document.getElementById('messagesContainer');
 const messageInput = document.getElementById('messageInput');
@@ -164,6 +178,16 @@ async function handleSendMessage() {
     
     // Show typing indicator
     const typingIndicatorId = addTypingIndicator();
+
+	// Show warning if backend is slow (cold start)
+    const timeoutWarning = setTimeout(() => {
+        const typingEl = document.getElementById(typingIndicatorId);
+        if (typingEl) {
+            typingEl.querySelector('.typing-text') 
+                ? typingEl.querySelector('.typing-text').textContent = '⏳ Still waking up, almost ready...'
+                : typingEl.innerHTML = '<div class="message-content">⏳ Still waking up, almost ready...</div>';
+        }
+    }, 10000);
     
     // Disable input while waiting
     setInputDisabled(true);
@@ -198,7 +222,22 @@ async function handleSendMessage() {
         
         // Add assistant message to UI
         addMessage('assistant', data.message);
-        
+		checkShowContactPopup(); // ← Add this line
+        //scrollToBottomIfNeeded(); // ← should be right after this
+		// Force scroll on new message
+setTimeout(() => {
+    messagesContainer.scrollTo({
+        top: messagesContainer.scrollHeight,
+        behavior: 'smooth'
+    });
+}, 300);
+setTimeout(() => {
+    messagesContainer.scrollTo({
+        top: messagesContainer.scrollHeight,
+        behavior: 'smooth'
+    });
+}, 900);
+
         // Add to conversation history
         conversationHistory.push({
             role: 'assistant',
@@ -206,6 +245,7 @@ async function handleSendMessage() {
         });
         
     } catch (error) {
+		clearTimeout(timeoutWarning);
         console.error('Error sending message:', error);
         removeTypingIndicator(typingIndicatorId);
         
@@ -215,6 +255,7 @@ async function handleSendMessage() {
         showError(error.message || 'Failed to send message. Please try again.');
         
     } finally {
+		 clearTimeout(timeoutWarning);
         setInputDisabled(false);
         isWaitingForResponse = false;
         messageInput.focus();
@@ -230,7 +271,7 @@ function addMessage(role, content) {
     
     const avatar = document.createElement('div');
     avatar.className = 'message-avatar';
-    avatar.textContent = role === 'user' ? 'You' : 'Pablo AI';
+    avatar.textContent = role === 'user' ? 'You' : 'JP AI';
     
     const messageContent = document.createElement('div');
     messageContent.className = 'message-content';
@@ -260,7 +301,7 @@ function addTypingIndicator() {
     
     const avatar = document.createElement('div');
     avatar.className = 'message-avatar';
-    avatar.textContent = 'AI';
+    avatar.textContent = 'JP AI';
     
     const typingDiv = document.createElement('div');
     typingDiv.className = 'message-content typing-indicator';
@@ -297,7 +338,19 @@ function scrollToBottomIfNeeded() {
     const isNearBottom = messagesContainer.scrollHeight - messagesContainer.scrollTop - messagesContainer.clientHeight < AUTO_SCROLL_THRESHOLD;
     
     if (isNearBottom) {
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        // Smooth scroll with mobile delay
+        messagesContainer.scrollTo({
+            top: messagesContainer.scrollHeight,
+            behavior: 'smooth'
+        });
+
+        // Extra timeout for mobile keyboard viewport changes
+        setTimeout(() => {
+            messagesContainer.scrollTo({
+                top: messagesContainer.scrollHeight,
+                behavior: 'smooth'
+            });
+        }, 150);
     }
 }
 
@@ -364,7 +417,7 @@ function setupExportButton() {
         exportText += `\n${'='.repeat(60)}\n\n`;
         
         conversationHistory.forEach((msg, index) => {
-            const speaker = msg.role === 'user' ? 'Recruiter' : 'Pablo AI';
+            const speaker = msg.role === 'user' ? 'Recruiter' : 'JP AI';
             exportText += `${speaker}:\n${msg.content}\n\n`;
         });
         
@@ -378,7 +431,7 @@ function setupExportButton() {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `pablo-ai-interview-${Date.now()}.txt`;
+            a.download = `JP-ai-interview-${Date.now()}.txt`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -412,4 +465,89 @@ if (typeof module !== 'undefined' && module.exports) {
         showError,
         hideError
     };
+}
+
+// ============================================================
+// Recruiter contact popup after 3+ messages
+// ============================================================
+let popupShown = false;
+
+function checkShowContactPopup() {
+    // Count user messages only
+    const userMessages = conversationHistory.filter(m => m.role === 'user').length;
+    
+    if (userMessages >= 3 && !popupShown) {
+        popupShown = true;
+        // Small delay so it doesn't interrupt the response
+        setTimeout(() => {
+            document.getElementById('contactPopup').classList.remove('hidden');
+        }, 1500);
+    }
+}
+
+// Submit contact info
+function setupContactPopup() {
+    const submitBtn = document.getElementById('submitContactBtn');
+    const closeBtn = document.getElementById('closeContactPopup');
+    const skipBtn = document.getElementById('skipContactBtn');
+
+    if (!submitBtn || !closeBtn || !skipBtn) {
+        console.warn('Contact popup elements not found');
+        return;
+    }
+
+    submitBtn.addEventListener('click', async () => {
+        const name = document.getElementById('recruiterName').value.trim();
+        const email = document.getElementById('recruiterEmail').value.trim();
+        const linkedIn = document.getElementById('recruiterLinkedIn').value.trim();
+        const company = document.getElementById('recruiterCompany').value.trim();
+
+        if (!name || !email) {
+            alert('Please fill in your name and email!');
+            return;
+        }
+
+        submitBtn.textContent = '⏳ Sending...';
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch(`${API_URL}/api/recruiter-contact`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, linkedIn, company })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                submitBtn.textContent = '✅ Sent!';
+                setTimeout(() => {
+                    document.getElementById('contactPopup').classList.add('hidden');
+                }, 1500);
+            } else {
+                submitBtn.textContent = 'Send My Details 🚀';
+                submitBtn.disabled = false;
+                alert('Something went wrong. Please try again!');
+            }
+        } catch (error) {
+            submitBtn.textContent = 'Send My Details 🚀';
+            submitBtn.disabled = false;
+            alert('Something went wrong. Please try again!');
+        }
+    });
+
+    closeBtn.addEventListener('click', () => {
+        document.getElementById('contactPopup').classList.add('hidden');
+    });
+
+    skipBtn.addEventListener('click', () => {
+        document.getElementById('contactPopup').classList.add('hidden');
+    });
+}
+
+// Call when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupContactPopup);
+} else {
+    setupContactPopup();
 }
