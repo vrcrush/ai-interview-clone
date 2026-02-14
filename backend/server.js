@@ -135,9 +135,13 @@ const SUSPICIOUS_PATTERNS = [
   /javascript:/i
 ];
 
+
+
 function isSuspiciousMessage(message) {
   return SUSPICIOUS_PATTERNS.some(pattern => pattern.test(message));
 }
+
+
 // Main chat endpoint
 app.post('/api/chat', rateLimiter, async (req, res) => {
   try {
@@ -150,6 +154,7 @@ app.post('/api/chat', rateLimiter, async (req, res) => {
         error: 'Message is required and must be a non-empty string'
       });
     }
+	
 // SECURITY: Check for suspicious patterns
     if (isSuspiciousMessage(message)) {
       console.warn(`⚠️ Suspicious message blocked: "${message.substring(0, 80)}"`);
