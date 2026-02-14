@@ -1,6 +1,13 @@
 // Configuration
+// Auto-detect environment
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3001'  // Local development
+    : 'https://ai-interview-clone-backend.onrender.com';  // Production
+console.log('🌍 Environment:', window.location.hostname === 'localhost' ? 'LOCAL' : 'PRODUCTION');
+console.log('🔗 API URL:', API_URL);
+
 //const API_URL = 'http://localhost:3001'; // Change this to your deployed backend URL
-const API_URL = 'https://ai-interview-clone-backend.onrender.com';
+//const API_URL = 'https://ai-interview-clone-backend.onrender.com';
 const MAX_MESSAGE_LENGTH = 2000;
 const AUTO_SCROLL_THRESHOLD = 100; // pixels from bottom
 
