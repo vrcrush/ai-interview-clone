@@ -1,8 +1,17 @@
 {
   "version": 2,
+  "name": "ai-interview-clone",
   "builds": [
     {
-      "src": "**/*",
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.js",
       "use": "@vercel/static"
     }
   ],
