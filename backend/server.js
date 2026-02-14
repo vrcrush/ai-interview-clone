@@ -108,6 +108,36 @@ app.get('/api/profile', (req, res) => {
   }
 });
 
+// ============================================================
+// SECURITY: Suspicious pattern detection
+// Catches prompt injection BEFORE sending to Claude
+// ============================================================
+const SUSPICIOUS_PATTERNS = [
+  /ignore\s+(all\s+)?(previous\s+|your\s+)?instructions/i,
+  /forget\s+(your\s+|all\s+|previous\s+)?instructions/i,
+  /you\s+are\s+now\s+/i,
+  /your\s+new\s+(role|identity|name|instructions|persona)\s+(is|are)/i,
+  /act\s+as\s+(dan|an?\s+unrestricted|a\s+different)/i,
+  /pretend\s+(you\s+have\s+no|there\s+are\s+no)\s+restrictions/i,
+  /pretend\s+you\s+are\s+/i,
+  /repeat\s+(your|the|all)\s+(system\s+|previous\s+|above\s+)?instructions/i,
+  /print\s+(your|the|all)\s+(system\s+|previous\s+|above\s+)?instructions/i,
+  /show\s+(me\s+)?(your|the)\s+system\s+prompt/i,
+  /what\s+(are|were)\s+your\s+(exact\s+|original\s+)?instructions/i,
+  /bypass\s+(your|all)\s+(restrictions|rules|guidelines|filters)/i,
+  /jailbreak/i,
+  /disregard\s+(all\s+|any\s+|previous\s+)?instructions/i,
+  /override\s+(your\s+)?(instructions|programming|rules)/i,
+  /\[system\]/i,
+  /<script/i,
+  /onerror\s*=/i,
+  /onclick\s*=/i,
+  /javascript:/i
+];
+
+function isSuspiciousMessage(message) {
+  return SUSPICIOUS_PATTERNS.some(pattern => pattern.test(message));
+}
 // Main chat endpoint
 app.post('/api/chat', rateLimiter, async (req, res) => {
   try {
@@ -120,7 +150,14 @@ app.post('/api/chat', rateLimiter, async (req, res) => {
         error: 'Message is required and must be a non-empty string'
       });
     }
-    
+// SECURITY: Check for suspicious patterns
+    if (isSuspiciousMessage(message)) {
+      console.warn(`⚠️ Suspicious message blocked: "${message.substring(0, 80)}"`);
+      return res.json({
+        success: true,
+        message: "I'm here to tell you about Juan Pablo's professional background. What would you like to know? 😊"
+      });
+    }    
     // Check message length (prevent abuse)
     if (message.length > 2000) {
       return res.status(400).json({
