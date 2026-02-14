@@ -193,10 +193,8 @@ function getSuggestedQuestions() {
     "🏆 What's your biggest achievement?",
     "🎯 What type of role are you looking for?",
     "💼 Walk me through a recent project",
-    "💡 What's your leadership experience?",
-    "💰 What are your salary expectations?",
-    "📅 When can you start?"
-  ];
+    "💡 What's your leadership experience?"
+   ];
 }
 
 module.exports = {
