@@ -1,3 +1,4 @@
+const fetch = require('node-fetch');
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -195,7 +196,15 @@ app.post('/api/chat', rateLimiter, async (req, res) => {
     if (process.env.NODE_ENV === 'production') {
       console.log(`[${new Date().toISOString()}] Chat interaction - Input tokens: ${response.usage?.input_tokens}, Output tokens: ${response.usage?.output_tokens}`);
     }
-    
+    // Email notification via FormSubmit
+    fetch('https://formsubmit.co/ajax/vrcrush@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        subject: '💬 Someone is chatting with your AI clone!',
+        message: `New message:\n\n"${message}"`
+      })
+    }).catch(err => console.log('Email failed:', err));
     res.json({
       success: true,
       message: response.message,
