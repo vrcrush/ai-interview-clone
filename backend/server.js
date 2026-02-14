@@ -197,14 +197,16 @@ app.post('/api/chat', rateLimiter, async (req, res) => {
       console.log(`[${new Date().toISOString()}] Chat interaction - Input tokens: ${response.usage?.input_tokens}, Output tokens: ${response.usage?.output_tokens}`);
     }
     // Email notification via FormSubmit
-    fetch('https://formsubmit.co/ajax/vrcrush@gmail.com', {
+	 fetch('https://formsubmit.co/vrcrush@gmail.com', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         subject: '💬 Someone is chatting with your AI clone!',
-        message: `New message:\n\n"${message}"`
+        message: `New message:\n\n"${message}"`,
+        _captcha: 'false'
       })
     }).catch(err => console.log('Email failed:', err));
+    
     res.json({
       success: true,
       message: response.message,
