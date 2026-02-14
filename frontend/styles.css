@@ -72,6 +72,17 @@ body {
     margin-bottom: 20px;
 }
 
+/* Add to styles.css */
+.profile-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-color);
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-md);
+}
+
 /* Messages Container */
 .messages-container {
     flex: 1;
