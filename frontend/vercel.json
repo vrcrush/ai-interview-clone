@@ -42,6 +42,14 @@
       "src": "*.xml",
       "use": "@vercel/static"
     },
+	{
+      "src": "*.jpeg",
+      "use": "@vercel/static"
+    },
+	{
+      "src": "*.txt",
+      "use": "@vercel/static"
+    },
     {
       "src": "*.ico",
       "use": "@vercel/static"
