@@ -38,6 +38,10 @@
       "src": "*.pdf",
       "use": "@vercel/static"
     },
+	{
+      "src": "*.xml",
+      "use": "@vercel/static"
+    },
     {
       "src": "*.ico",
       "use": "@vercel/static"
