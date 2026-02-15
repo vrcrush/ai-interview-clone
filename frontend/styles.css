@@ -188,7 +188,7 @@ body {
     width: 110px;
     height: 110px;
     border-radius: 50%;
-    border: 5px solid transparent;
+    border: 6px solid transparent;
     background-image: linear-gradient(white, white), 
                       linear-gradient(to right, #98FB98, #00ff00, #006400, #98FB98);
     background-origin: border-box;

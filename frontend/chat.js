@@ -220,8 +220,10 @@ async function handleSendMessage() {
             throw new Error(data.error || 'Failed to get response');
         }
         
-        // Add assistant message to UI
-        addMessage('assistant', data.message);
+        /* // Add assistant message to UI
+        addMessage('assistant', data.message); */
+		// Simulate streaming effect
+        simulateStreaming(data.message);
 		checkShowContactPopup(); // ← Add this line
         //scrollToBottomIfNeeded(); // ← should be right after this
 		// Force scroll on new message
@@ -544,7 +546,44 @@ function setupContactPopup() {
         document.getElementById('contactPopup').classList.add('hidden');
     });
 }
+function simulateStreaming(fullText) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message assistant';
 
+    const avatar = document.createElement('div');
+    avatar.className = 'message-avatar';
+    avatar.textContent = 'JP AI';
+
+    const messageContent = document.createElement('div');
+    messageContent.className = 'message-content';
+
+    const messageText = document.createElement('p');
+    messageText.className = 'message-text';
+    messageText.textContent = '';
+
+    messageContent.appendChild(messageText);
+    messageDiv.appendChild(avatar);
+    messageDiv.appendChild(messageContent);
+    messagesContainer.appendChild(messageDiv);
+
+    // Split into words and display one by one
+    const words = fullText.split(' ');
+    let index = 0;
+
+    const interval = setInterval(() => {
+        if (index < words.length) {
+            messageText.textContent += (index === 0 ? '' : ' ') + words[index];
+            index++;
+            // Scroll as text appears
+            messagesContainer.scrollTo({
+                top: messagesContainer.scrollHeight,
+                behavior: 'smooth'
+            });
+        } else {
+            clearInterval(interval);
+        }
+    }, 60); // ← speed: 60ms per word
+}
 // Call when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', setupContactPopup);

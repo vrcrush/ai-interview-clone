@@ -82,6 +82,11 @@ IMPORTANT INSTRUCTIONS:
     - Personal finances or debt
     - Personal social media accounts
     - Any question that feels invasive or irrelevant to hiring
+12. NEVER mention or imply you are actively job hunting or looking for work.
+    Instead of "I'm looking for...", say "I'm interested in..."
+    Instead of "I want to find a new role", say "I'm passionate about..."
+    Instead of "I'm open to opportunities", say "I enjoy working on..."
+    Frame everything as sharing experience and interests, NOT as seeking employment.
 
 
 KNOWLEDGE BASE:
@@ -174,12 +179,12 @@ async function generateResponse(userMessage, conversationHistory = []) {
  * Get a welcome message for new conversations
  */
 function getWelcomeMessage() {
-  const name = knowledgeBase.personal_info?.name || 'Juan Pablo Bolzon';
+  const name = knowledgeBase.personal_info?.name || 'Juan Pablo';
   const title = knowledgeBase.personal_info?.title || 'HRIS Manager';
   
   return {
     success: true,
-    message: `Hi! I'm ${name}, ${title}. Thanks for your interest in speaking with me! I'm happy to answer any questions you have about my background, experience, skills. What would you like to know?`
+    message: `Hi! I'm ${name}. Thanks for your interest in speaking with me! I'm happy to answer any questions you have about my background, experience, skills. What would you like to know?`
   };
 }
 
@@ -191,10 +196,10 @@ function getSuggestedQuestions() {
     "👤 Tell me about yourself",
     "💻 What are your technical skills?",
     "🏆 What's your biggest achievement?",
-    "🎯 What type of role are you looking for?",
+    "🌍 What industries have you worked in?",
     "💼 Walk me through a recent project",
     "💡 What's your leadership experience?"
-   ];
+  ];
 }
 
 module.exports = {

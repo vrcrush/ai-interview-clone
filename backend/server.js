@@ -1,3 +1,4 @@
+const { Client } = require('@notionhq/client');
 const fetch = require('node-fetch');
 require('dotenv').config();
 const express = require('express');
@@ -6,6 +7,45 @@ const claudeHandler = require('./claude-handler');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Notion setup
+const notion = new Client({ 
+    auth: process.env.NOTION_API_KEY 
+});
+
+async function addToNotion(name, email, company, linkedIn) {
+    try {
+        await notion.pages.create({
+            parent: { database_id: process.env.NOTION_DATABASE_ID },
+            properties: {
+                Name: {
+                    title: [{ text: { content: name } }]
+                },
+                Email: {
+                    email: email
+                },
+                Company: {
+                    rich_text: [{ text: { content: company || 'Not provided' } }]
+                },
+                LinkedIn: {
+                    url: linkedIn || null
+                }
+            }
+        });
+        console.log('✅ Added to Notion!');
+    } catch (error) {
+        console.error('Notion error:', error.message);
+    }
+}
+
+/* const fetch = require('node-fetch');
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const claudeHandler = require('./claude-handler');
+
+const app = express();
+const PORT = process.env.PORT || 3001; */
 
 // Middleware
 app.use(cors()); // Enable CORS for all routes
@@ -245,7 +285,7 @@ app.get('/api/counter', async (req, res) => {
   }
 });
 
-// Log recruiter contact info
+/* // Log recruiter contact info
 app.post('/api/recruiter-contact', async (req, res) => {
     try {
         const { name, email, linkedIn, company } = req.body;
@@ -265,7 +305,29 @@ app.post('/api/recruiter-contact', async (req, res) => {
         console.error('Contact error:', error);
         res.status(500).json({ success: false });
     }
+}); */
+
+app.post('/api/recruiter-contact', async (req, res) => {
+    try {
+        const { name, email, linkedIn, company } = req.body;
+
+        console.log('🎯 NEW RECRUITER CONTACT!');
+        console.log(`👤 Name:     ${name}`);
+        console.log(`📧 Email:    ${email}`);
+        console.log(`💼 Company:  ${company || 'Not provided'}`);
+        console.log(`🔗 LinkedIn: ${linkedIn || 'Not provided'}`);
+
+        // Save to Notion
+        await addToNotion(name, email, company, linkedIn);
+
+        res.json({ success: true });
+
+    } catch (error) {
+        console.error('Contact error:', error);
+        res.status(500).json({ success: false });
+    }
 });
+
 
 // 404 handler
 app.use((req, res) => {
